@@ -1,0 +1,28 @@
+name: Weather Bot
+
+on:
+  schedule:
+    # 毎日6時に実行
+    - cron: "0 21 * * *" # UTC での設定（日本時間は -9時間で計算）
+
+jobs:
+  send-weather:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run weather bot
+        env:
+          WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+          LINE_ACCESS_TOKEN: ${{ secrets.LINE_ACCESS_TOKEN }}
+          LINE_USER_ID: ${{ secrets.LINE_USER_ID }}
+        run: node index.js
