@@ -3,7 +3,13 @@ name: Weather Bot
 on:
   schedule:
     # 毎日6時に実行
-    - cron: "0 21 * * *" # UTC での設定（日本時間は -9時間で計算）
+    - cron: "0 21 * * *"
+  workflow_dispatch: # 手動実行用のトリガー
+    inputs:
+      customMessage:
+        description: "送信するカスタムメッセージ" # 必須ではない入力項目
+        required: false
+        default: "定期天気予報"
 
 jobs:
   send-weather:
